@@ -74,7 +74,7 @@ export default function Cart({ refreshProducts, setAlertNotification }: CartProp
     <>
       <div
         onClick={toggleOpen}
-        className="fas fa-shopping-cart flex justify-center items-center w-12 h-12 rounded-full cursor-pointer fixed bottom-5 right-5 text-2xl bg-orange-300"
+        className="fas fa-shopping-cart flex justify-center items-center w-12 h-12 rounded-full cursor-pointer fixed bottom-4 right-4 text-2xl bg-orange-300"
         style={{ display: 'flex' }}>
         <span className="flex justify-center items-center w-6 h-6 rounded-full bg-white border-orange-300 border-2 text-xs absolute -top-2 -right-2">
           {cart.reduce((sum, item) => sum + item.quantity, 0)}

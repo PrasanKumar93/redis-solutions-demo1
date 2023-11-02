@@ -11,6 +11,7 @@ import {
     triggerResetInventory,
     getZipCodes, getStoreProductsByGeoFilter, getProducts
 } from '@/utils/services';
+import Chat from './Chat';
 
 
 export default function Home() {
@@ -111,6 +112,7 @@ export default function Home() {
         <>
             <Navbar currentStore={products?.[0]?.storeName} refreshProducts={refreshProducts} refreshStore={refreshStore} />
             <Cart refreshProducts={refreshProducts} setAlertNotification={setAlertNotification} />
+            <Chat />
             <main className="pt-12">
                 <div className="max-w-screen-xl mx-auto mt-6 px-6 pb-6">
                     <div className="mb-2 flex justify-between">

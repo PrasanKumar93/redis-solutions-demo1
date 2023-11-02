@@ -53,7 +53,9 @@ export default function Navbar({ path = '', currentStore = "Find my store:", ref
           <span className="text-white">{currentStore}</span>
           <div className='mx-2 text-white'>
             <button onClick={refreshStore} className="bg-slate-600 hover:bg-slate-400 py-2 px-4 rounded">
-              <span className="text-3xl">⌖</span></button>
+              <i className="fas fa-location-crosshairs"></i>
+            </button>
+
           </div>
           <Search refreshProducts={refreshProducts} />
         </div>
