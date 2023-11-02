@@ -1,6 +1,6 @@
 'use client';
-
-import { useState, useEffect } from 'react';
+import { CartContext, CartDispatchContext } from '@/components/CartProvider';
+import { useState, useEffect, useContext } from 'react';
 import { createPortal } from 'react-dom';
 
 import ProductCard from '@/components/ProductCard';
@@ -9,7 +9,7 @@ import Cart from '@/components/Cart';
 import Alert from '@/components/Alert';
 import {
     triggerResetInventory,
-    getZipCodes, getStoreProductsByGeoFilter
+    getZipCodes, getStoreProductsByGeoFilter, getProducts
 } from '@/utils/services';
 
 
@@ -18,8 +18,8 @@ export default function Home() {
     const [zipCodeList, setZipCodeList] = useState<ListItem[]>();
     const [selectedZipCodeInfo, setSelectedZipCodeInfo] = useState<models.ZipCode>();
     const [alertNotification, setAlertNotification] = useState({ title: '', message: '' });
-    const [filterLabel, setFilterLabel] = useState<string>();
     const [nearestStore, setNearestStore] = useState<string>();
+    const cartDispatch = useContext(CartDispatchContext);
 
     async function suggestionSelectedCallback(itm: ListItem) {
         setSelectedZipCodeInfo(itm.value);
@@ -28,14 +28,14 @@ export default function Home() {
 
     async function refreshProducts(_search: string, _zipCodeInfo?: models.ZipCode) {
         //_zipCodeInfo not passed on search textbox submit
+        if (!_search) {
+            _search = window?.location?.search ?? '';
+        }
+        const searchText = _search.replace(/\?search=/g, '');
 
         _zipCodeInfo = _zipCodeInfo || selectedZipCodeInfo;
         if (_zipCodeInfo) {
-            if (!_search) {
-                _search = window?.location?.search ?? '';
-            }
-            const searchText = _search.replace(/\?search=/g, '');
-            const products = await getStoreProductsByGeoFilter(_zipCodeInfo, searchText)
+            const products = await getStoreProductsByGeoFilter(_zipCodeInfo, searchText);
             setProducts(products);
 
             setNearestStore("");
@@ -43,12 +43,9 @@ export default function Home() {
                 setNearestStore(products[0].storeId);
             }
 
-            let label = "For zip code: " + _zipCodeInfo?.zipCode;
-            if (searchText) {
-                label += " and search: " + searchText;
-            }
-            label = "(" + label + ")";
-            setFilterLabel(label);
+        } else {
+            const products = await getProducts(searchText);
+            setProducts(products);
         }
     }
 
@@ -82,32 +79,42 @@ export default function Home() {
         });
     }
 
-    useEffect(() => {
-        (async () => {
-            const zipCodes = await getZipCodeList();
-            if (zipCodes?.length) {
-                setZipCodeList(zipCodes);
-                setSelectedZipCodeInfo(zipCodes[0].value);
+    async function refreshStore() {
+        const zipCodes = await getZipCodeList();
+        if (zipCodes?.length) {
+            setZipCodeList(zipCodes);
+            const randomCode = Math.floor(Math.random() * zipCodes.length + 1) - 1;
+            let newZipCode = zipCodes[randomCode].value;
+            const currentZipCode = selectedZipCodeInfo;
 
-                await refreshProducts("", zipCodes[0].value);
+            while (!!newZipCode && !!currentZipCode && newZipCode.zipCode === currentZipCode.zipCode) {
+                const randomCode = Math.floor(Math.random() * zipCodes.length + 1) - 1;
+                newZipCode = zipCodes[randomCode].value;
             }
 
+            setSelectedZipCodeInfo(newZipCode);
+
+            await refreshProducts("", newZipCode);
+            cartDispatch({
+                type: 'clear_cart',
+            });
+        }
+    }
+
+    useEffect(() => {
+        (async () => {
+            await refreshProducts("");
         })();
     }, []);
 
     return (
         <>
-            <Navbar refreshProducts={refreshProducts}
-                autoCompleteText={{
-                    placeHolder: "Zip code...",
-                    suggestionSelectedCallback: suggestionSelectedCallback,
-                    listItems: zipCodeList ?? []
-                }} />
+            <Navbar currentStore={products?.[0]?.storeName} refreshProducts={refreshProducts} refreshStore={refreshStore} />
             <Cart refreshProducts={refreshProducts} setAlertNotification={setAlertNotification} />
             <main className="pt-12">
                 <div className="max-w-screen-xl mx-auto mt-6 px-6 pb-6">
                     <div className="mb-2 flex justify-between">
-                        <span>Showing {products?.length} products in nearest stores {filterLabel}</span>
+                        <span>Showing {products?.length} products</span>
                         <button
                             type="button"
                             onClick={resetStockQtyBtnClick}

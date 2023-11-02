@@ -7,11 +7,12 @@ import AutoCompleteText from '@/components/AutoCompleteText';
 
 export interface NavbarProps {
   path?: string;
+  currentStore?: string;
   refreshProducts?: (search: string) => void;
-  autoCompleteText?: AutoCompleteTextProps;
+  refreshStore?: () => void;
 }
 
-export default function Navbar({ path = '', refreshProducts, autoCompleteText }: NavbarProps) {
+export default function Navbar({ path = '', currentStore = "Find my store:", refreshProducts, refreshStore }: NavbarProps) {
   const isOrders = /orders/.test(path);
   const isAdmin = /admin/.test(path);
   const linkClass =
@@ -48,15 +49,12 @@ export default function Navbar({ path = '', refreshProducts, autoCompleteText }:
             Admin
           </Link>
         </div>
-        <div className='flex'>
-          {autoCompleteText?.listItems && Number(autoCompleteText.listItems.length) > 0 &&
-            <div className='mr-2'>
-              <AutoCompleteText listItems={autoCompleteText.listItems}
-                placeHolder={autoCompleteText.placeHolder}
-                suggestionSelectedCallback={autoCompleteText.suggestionSelectedCallback}>
-              </AutoCompleteText>
-            </div>
-          }
+        <div className='flex items-center'>
+          <span className="text-white">{currentStore}</span>
+          <div className='mx-2 text-white'>
+            <button onClick={refreshStore} className="bg-slate-600 hover:bg-slate-400 py-2 px-4 rounded">
+              <span className="text-3xl">⌖</span></button>
+          </div>
           <Search refreshProducts={refreshProducts} />
         </div>
 

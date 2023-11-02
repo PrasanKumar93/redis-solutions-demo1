@@ -23,143 +23,31 @@ const addZipCodeDetailsInRedis = async (redisClient: NodeRedisClientType) => {
     const zipCodeDetails: IZipCode[] = [
         {
             zipLocation: {
-                latitude: 40.785091,
-                longitude: -73.968285,
+                latitude: 36.201051,
+                longitude: -115.247882,
             },
-            zipCode: 10022
+            zipCode: 89128
         },
         {
             zipLocation: {
-                latitude: 40.931210,
-                longitude: -73.898747,
+                latitude: 36.121149,
+                longitude: -115.245988,
             },
-            zipCode: 10701
+            zipCode: 89147
         },
         {
             zipLocation: {
-                latitude: 41.033986,
-                longitude: -73.762910,
+                latitude: 36.196385,
+                longitude: -115.163960,
             },
-            zipCode: 10601
+            zipCode: 89106
         },
         {
             zipLocation: {
-                latitude: 40.911488,
-                longitude: -73.782355,
+                latitude: 36.173475,
+                longitude: -115.120923,
             },
-            zipCode: 10801
-        },
-        {
-            zipLocation: {
-                latitude: 42.886447,
-                longitude: -78.878369,
-            },
-            zipCode: 14202
-        },
-        {
-            zipLocation: {
-                latitude: 43.161030,
-                longitude: -77.610924,
-            },
-            zipCode: 14604
-        },
-        {
-            zipLocation: {
-                latitude: 43.048122,
-                longitude: -76.147424,
-            },
-            zipCode: 13202
-        },
-        {
-            zipLocation: {
-                latitude: 42.652580,
-                longitude: -73.756233,
-            },
-            zipCode: 12207
-        },
-        {
-            zipLocation: {
-                latitude: 42.098687,
-                longitude: -75.917974,
-            },
-            zipCode: 13901
-        },
-        {
-            zipLocation: {
-                latitude: 40.837049,
-                longitude: -73.865430,
-            },
-            zipCode: 10451
-        },
-        {
-            zipLocation: {
-                latitude: 40.678178,
-                longitude: -73.944158,
-            },
-            zipCode: 11201
-        },
-        {
-            zipLocation: {
-                latitude: 40.728224,
-                longitude: -73.794852,
-            },
-            zipCode: 11354
-        },
-        {
-            zipLocation: {
-                latitude: 40.579532,
-                longitude: -74.150201,
-            },
-            zipCode: 10301
-        },
-        {
-            zipLocation: {
-                latitude: 40.706212,
-                longitude: -73.618739,
-            },
-            zipCode: 11550
-        },
-        {
-            zipLocation: {
-                latitude: 40.963434,
-                longitude: -72.184801,
-            },
-            zipCode: 11937
-        },
-        {
-            zipLocation: {
-                latitude: 41.503427,
-                longitude: -74.010418,
-            },
-            zipCode: 12550
-        },
-        {
-            zipLocation: {
-                latitude: 42.443961,
-                longitude: -76.501881,
-            },
-            zipCode: 14850
-        },
-        {
-            zipLocation: {
-                latitude: 41.700371,
-                longitude: -73.920970,
-            },
-            zipCode: 12601
-        },
-        {
-            zipLocation: {
-                latitude: 43.096214,
-                longitude: -79.037739,
-            },
-            zipCode: 14301
-        },
-        {
-            zipLocation: {
-                latitude: 43.083130,
-                longitude: -73.784565,
-            },
-            zipCode: 12866
+            zipCode: 89101
         }
     ];
 
@@ -177,83 +65,38 @@ const addZipCodeDetailsInRedis = async (redisClient: NodeRedisClientType) => {
 }
 
 const getStoreDetails = (): IStore[] => {
-    //consider following sample stores in NewYork state (USA)
+    //consider following sample stores in Vegas (USA)
 
     const stores: IStore[] = [{
-        storeId: '01_NY_BUFFALO',
+        storeId: '01_RAINBOW_PROMENADE',
+        storeName: 'Rainbow Promenade',
         storeLocation: {
-            latitude: 42.880230,
-            longitude: -78.878738,
+            latitude: 36.201648,
+            longitude: -115.243430,
         }
     },
     {
-        storeId: '02_NY_ROCHESTER',
+        storeId: '02_SPRING_VALLEY',
+        storeName: 'Spring Valley',
         storeLocation: {
-            latitude: 43.156578,
-            longitude: -77.608849,
+            latitude: 36.122794,
+            longitude: -115.245510,
         }
     },
     {
-        storeId: '03_NY_BINGHAMTON',
+        storeId: '03_WEST_VEGAS',
+        storeName: 'West Vegas',
         storeLocation: {
-            latitude: 42.098701,
-            longitude: -75.912537,
+            latitude: 36.194413,
+            longitude: -115.162892,
         }
     },
     {
-        storeId: '04_NY_SYRACUSE',
+        storeId: '04_BONANZA_SQUARE',
+        storeName: 'Bonanza Square',
         storeLocation: {
-            latitude: 43.088947,
-            longitude: -76.154480,
-        }
-    },
-    {
-        storeId: '05_NY_WATERTOWN',
-        storeLocation: {
-            latitude: 43.974785,
-            longitude: -75.910759,
-        }
-    },
-    {
-        storeId: '06_NY_UTICA',
-        storeLocation: {
-            latitude: 43.107204,
-            longitude: -75.252312,
-        }
-    },
-    {
-        storeId: '07_NY_ALBANY',
-        storeLocation: {
-            latitude: 42.652580,
-            longitude: -73.756233,
-        }
-    },
-    {
-        storeId: '08_NY_PLATTSBURGH',
-        storeLocation: {
-            latitude: 44.699764,
-            longitude: -73.471428,
-        }
-    },
-    {
-        storeId: '09_NY_NEW_YORK_CITY',
-        storeLocation: {
-            latitude: 40.730610,
-            longitude: -73.935242,
-        }
-    },
-    {
-        storeId: '10_NY_POUGHKEEPSIE',
-        storeLocation: {
-            latitude: 41.708290,
-            longitude: -73.923912,
-        }
-    },
-    {
-        storeId: '11_NY_MELVILLE',
-        storeLocation: {
-            latitude: 40.79343,
-            longitude: -73.41512,
+            latitude: 36.173264,
+            longitude: -115.117103,
         }
     }];
 
@@ -287,6 +130,7 @@ const addProductsToRandomStoresInRedis = async (_products: Prisma.ProductCreateI
                     }
                     const storesInventory: IStoreInventory = {
                         storeId: store.storeId,
+                        storeName: store.storeName,
                         storeLocation: store.storeLocation,
                         productId: product.productId,
                         productDisplayName: product.productDisplayName,

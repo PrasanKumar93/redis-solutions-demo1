@@ -34,7 +34,7 @@ export default function Home() {
             const search = window?.location?.search ?? '';
             await refreshProducts(search);
         })();
-    }, []);
+    }, [typeof window !== 'undefined' && window?.location?.search]);
 
     return (
         <>
