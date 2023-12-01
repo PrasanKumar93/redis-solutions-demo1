@@ -4,7 +4,7 @@ import express, { Request, Response } from 'express';
 
 import {
   getProductsByFilter, triggerResetInventory,
-  getZipCodes, getStoreProductsByGeoFilter
+  getZipCodes, getStoreProductsByGeoFilter, getProductsByVectorAndGeo
 } from './service-impl';
 import { HTTP_STATUS_CODES } from '../../../common/config/constants';
 import { SERVER_CONFIG } from '../../../common/config/server-config';
@@ -120,7 +120,7 @@ router.post(
 
     try {
 
-      const storeProducts = await getStoreProductsByGeoFilter(body);
+      const storeProducts = body?.question ? await getProductsByVectorAndGeo(body) : await getStoreProductsByGeoFilter(body);
       result.data = storeProducts;
 
     } catch (err) {

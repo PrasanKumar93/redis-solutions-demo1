@@ -9,7 +9,7 @@ import Cart from '@/components/Cart';
 import Alert from '@/components/Alert';
 import {
     triggerResetInventory,
-    getZipCodes, getStoreProductsByGeoFilter, getProducts
+    getZipCodes, getStoreProductsByGeoFilter, getProducts, getStoreProductsByChatAndGeoFilter
 } from '@/utils/services';
 import Chat from './Chat';
 
@@ -44,6 +44,21 @@ export default function Home() {
                 setNearestStore(products[0].storeId);
             }
 
+        } else {
+            const products = await getProducts(searchText);
+            setProducts(products);
+        }
+    }
+
+    async function refreshChatProducts(searchText: string) {
+        if (selectedZipCodeInfo) {
+            const products = await getStoreProductsByChatAndGeoFilter(selectedZipCodeInfo, searchText);
+            setProducts(products);
+
+            setNearestStore("");
+            if (products?.length) {
+                setNearestStore(products[0].storeId);
+            }
         } else {
             const products = await getProducts(searchText);
             setProducts(products);
@@ -102,17 +117,20 @@ export default function Home() {
         }
     }
 
+    /* eslint-disable:react-hooks/exhaustive-deps */
     useEffect(() => {
         (async () => {
-            await refreshProducts("");
+            const search = window?.location?.search ?? '';
+            await refreshProducts(search);
         })();
     }, []);
+    /* eslint-enable:react-hooks/exhaustive-deps */
 
     return (
         <>
             <Navbar currentStore={products?.[0]?.storeName} refreshProducts={refreshProducts} refreshStore={refreshStore} />
+            <Chat refreshProducts={refreshChatProducts} />
             <Cart refreshProducts={refreshProducts} setAlertNotification={setAlertNotification} />
-            <Chat />
             <main className="pt-12">
                 <div className="max-w-screen-xl mx-auto mt-6 px-6 pb-6">
                     <div className="mb-2 flex justify-between">

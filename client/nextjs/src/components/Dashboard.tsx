@@ -29,12 +29,14 @@ export default function Home() {
         });
     }
 
+    /* eslint-disable:react-hooks/exhaustive-deps */
     useEffect(() => {
         (async () => {
             const search = window?.location?.search ?? '';
             await refreshProducts(search);
         })();
-    }, [typeof window !== 'undefined' && window?.location?.search]);
+    }, []);
+    /* eslint-enable:react-hooks/exhaustive-deps */
 
     return (
         <>

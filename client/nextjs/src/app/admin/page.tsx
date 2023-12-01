@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import Navbar from '@/components/Navbar';
 import Image from 'next/image';
-import { getShortName } from '@/utils/convert';
+import { getShortName, numberToCurrency } from '@/utils/convert';
 
 import {
     Bar, Doughnut, PolarArea,
@@ -23,7 +23,7 @@ function getBrandPurchaseChartInfo(_orderStats?: api.OrderStatsResponse) {
 
         _orderStats.brandPurchaseAmountSet.forEach(itm => {
             labels.push(itm.value);
-            values.push(itm.score);
+            values.push(Number(numberToCurrency.format(Number(itm.score) / 100).slice(1)));
         })
 
         chartInfo.labels = labels;
@@ -53,7 +53,7 @@ function getCategoryPurchaseChartInfo(_orderStats?: api.OrderStatsResponse) {
 
         _orderStats.categoryPurchaseAmountSet.forEach(itm => {
             labels.push(itm.value);
-            values.push(itm.score);
+            values.push(Number(numberToCurrency.format(Number(itm.score) / 100).slice(1)));
         })
 
         chartInfo.labels = labels;
@@ -81,7 +81,7 @@ function getProductPurchaseChartInfo(_orderStats?: api.OrderStatsResponse) {
 
         _orderStats.productPurchaseQtySet.forEach(itm => {
             labels.push(itm.value);
-            values.push(itm.score);
+            values.push(Number(numberToCurrency.format(Number(itm.score) / 100).slice(1)));
         })
 
         chartInfo.labels = labels;
@@ -271,7 +271,7 @@ export default function Home() {
                         <h5 className="font-bold uppercase">
                             Total Purchase Amount :
                             <span className="text-sm pl-1">
-                                ${Number(orderStats?.totalPurchaseAmount).toLocaleString('en')}
+                                {numberToCurrency.format(Number(orderStats?.totalPurchaseAmount) / 100)}
                             </span>
                         </h5>
 

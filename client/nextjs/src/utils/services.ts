@@ -119,3 +119,26 @@ export async function getStoreProductsByGeoFilter(zipCodeInfo: models.ZipCode, s
 
   return result.data;
 }
+
+export async function getStoreProductsByChatAndGeoFilter(zipCodeInfo: models.ZipCode, search?: string,
+): Promise<models.Product[]> {
+
+  const result = await request(
+    `${process.env.NEXT_PUBLIC_API_GATEWAY_URI}/products/getStoreProductsByGeoFilter`,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        question: search,
+        userLocation: {
+          latitude: zipCodeInfo?.zipLocation?.latitude,
+          longitude: zipCodeInfo?.zipLocation?.longitude,
+        },
+        other: {
+          zipCode: zipCodeInfo?.zipCode
+        }
+      }),
+    },
+  );
+
+  return result.data;
+}
